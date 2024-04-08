@@ -85,17 +85,32 @@ train_x = training[:, :len(words)]
 train_y = training[:, len(words):]
 
 # Building model
-model = tf.keras.Sequential()
+model = tf.keras.Sequential() # Define a sequential model, which allows for linear stack of layers
+# Add input layer with 128 neurons, input shape is determined by the length of the first training sample
+# Activation function used is ReLU (Rectified Linear Unit)
 model.add(tf.keras.layers.Dense(128, input_shape=(len(train_x[0]),), activation='relu'))
+# Add a dropout layer with a rate of 0.5 to prevent overfitting
 model.add(tf.keras.layers.Dropout(0.5))
+# Add a hidden layer with 64 neurons and ReLU activation function
 model.add(tf.keras.layers.Dense(64, activation='relu'))
+# Add another dropout layer to prevent overfitting
 model.add(tf.keras.layers.Dropout(0.5))
+#Add the output layer with neurons equal to the number of classes, using softmax activation for multi-class classification
 model.add(tf.keras.layers.Dense(len(train_y[0]), activation='softmax'))
 
+# Define Stochastic Gradient Descent (SGD) optimizer with specified learning rate, momentum and Nesterov momentum
 sgd = tf.keras.optimizers.SGD(learning_rate=0.01, momentum=0.9, nesterov=True)
+# Compile the model, specifying loss function, optimizer and evaluation metric
 model.compile(loss="categorical_crossentropy", optimizer=sgd, metrics=["accuracy"])
 
+# Train the model using training data
+# epochs: Number of training iterations over the entire dataset
+# batch_size: Number of samples per gradient update
+# verbose: Verbosity mode(0 = silent, 1 = progress bar, 2 = one line per epoch)
 hist = model.fit(train_x, train_y, epochs=200, batch_size=5, verbose=1)
+
+# Saving the trained model to a file containing .keras format
+# Saving the training history for visualization purposes
 model.save('chatbot_model.keras', hist)
 
 print("Done")
