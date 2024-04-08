@@ -7,7 +7,7 @@
         },
         {
             "tag": "goodbye",
-            "pattens": ["see ya", "cya", "see you later", "goodbye", "later", "bye", "have a good day"],
+            "patterns": ["see ya", "cya", "see you later", "goodbye", "later", "bye", "have a good day"],
             "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye"]
         },
         {
